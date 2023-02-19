@@ -20,6 +20,7 @@ var (
 )
 
 func setupSubcommands() {
+	rootCmd.AddCommand(checkDependenciesCmd)
 }
 
 func Execute() {
