@@ -21,6 +21,7 @@ var (
 
 func setupSubcommands() {
 	rootCmd.AddCommand(checkDependenciesCmd)
+	rootCmd.AddCommand(developCmd)
 }
 
 func Execute() {
@@ -39,6 +40,9 @@ func setupRootCmdFlags() {
 		"",
 		"config file (default: [REPO-ROOT]/.notebook)",
 	)
+
+	viper.SetDefault("devServer.dataDir", "_public_html")
+	viper.SetDefault("devServer.addr", "localhost:8080")
 
 	// include klog's flags into CLI
 	fs := flag.NewFlagSet("", flag.PanicOnError)
