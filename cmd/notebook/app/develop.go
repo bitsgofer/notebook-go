@@ -12,8 +12,8 @@ var developCmd = &cobra.Command{
 	Use:   "develop",
 	Short: "Run render on file changes and serve over HTTP server",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		serverAddr := viper.GetString("devServer.addr")
-		dataDir := viper.GetString("devServer.dataDir")
+		serverAddr := viper.GetString(cfgKeyDevServerAddr)
+		dataDir := viper.GetString(cfgKeyDevServerDataDir)
 
 		fmt.Printf("Listen to %s and serve pages from: %s\n", serverAddr, dataDir)
 		srv, _ := webserver.NewDevelopmentServer(serverAddr, dataDir)

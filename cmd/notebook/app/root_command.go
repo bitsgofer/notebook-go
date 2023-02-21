@@ -37,17 +37,17 @@ func setupRootCmdFlags() {
 
 	rootCmd.PersistentFlags().StringVar(
 		&configFile,
-		"config",
+		cfgKeyConfigFile,
 		"",
 		"config file (default: [REPO-ROOT]/.notebook)",
 	)
 
-	viper.SetDefault("theme", "bitsgofer")
-	viper.SetDefault("contentDir", "content")
-	viper.SetDefault("outputDir", "_public_html")
+	viper.SetDefault(cfgKeyTheme, "bitsgofer")
+	viper.SetDefault(cfgKeyContentDir, "content")
+	viper.SetDefault(cfgKeyOutputDir, "_public_html")
 
-	viper.SetDefault("devServer.dataDir", "_public_html")
-	viper.SetDefault("devServer.addr", "localhost:8080")
+	viper.SetDefault(cfgKeyDevServerDataDir, "_public_html")
+	viper.SetDefault(cfgKeyDevServerAddr, "localhost:8080")
 
 	// include klog's flags into CLI
 	fs := flag.NewFlagSet("", flag.PanicOnError)
@@ -57,8 +57,8 @@ func setupRootCmdFlags() {
 
 func initConfig() {
 	// config should be load from a YAML file, e.g: ./.notebook
-	viper.SetConfigType("yaml")
-	viper.SetConfigName(".notebook")
+	viper.SetConfigType(cfgConfiFileFormat)
+	viper.SetConfigName(cfgDefaultConfigFile)
 
 	if configFile != "" { // override config file
 		klog.V(3).InfoS("use config file from flag", "config", configFile)
