@@ -15,5 +15,9 @@ const (
 	cfgKeyDevServer               = "devServer"
 	cfgKeyDevServerAddr           = cfgKeyDevServer + ".addr"
 	cfgKeyDevServerDataDir        = cfgKeyDevServer + ".dir"
+	cfgKeyPublish                 = "publish"
+	cfgKeyPublishBranch           = cfgKeyPublish + ".branch"
+	cfgKeyPublishDir              = cfgKeyPublish + ".dir"
+	cfgDefaultPublishBranch       = "gh-pages"
 	cfgDefaultOutputAndPublishDir = "_public_html"
 )

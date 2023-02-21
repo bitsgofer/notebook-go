@@ -28,6 +28,7 @@ func setupSubcommands() {
 	rootCmd.AddCommand(checkDependenciesCmd)
 	rootCmd.AddCommand(developCmd)
 	rootCmd.AddCommand(renderCmd)
+	rootCmd.AddCommand(setupBranchForGithubPages)
 }
 
 func Execute() {
@@ -53,6 +54,9 @@ func setupRootCmdFlags() {
 
 	viper.SetDefault(cfgKeyDevServerDataDir, cfgDefaultOutputAndPublishDir)
 	viper.SetDefault(cfgKeyDevServerAddr, "localhost:8080")
+
+	viper.SetDefault(cfgKeyPublishBranch, cfgDefaultPublishBranch)
+	viper.SetDefault(cfgKeyPublishDir, cfgDefaultOutputAndPublishDir)
 
 	// include klog's flags into CLI
 	fs := flag.NewFlagSet("", flag.PanicOnError)
