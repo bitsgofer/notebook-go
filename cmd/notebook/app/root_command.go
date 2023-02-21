@@ -22,6 +22,7 @@ var (
 func setupSubcommands() {
 	rootCmd.AddCommand(checkDependenciesCmd)
 	rootCmd.AddCommand(developCmd)
+	rootCmd.AddCommand(renderCmd)
 }
 
 func Execute() {
@@ -40,6 +41,10 @@ func setupRootCmdFlags() {
 		"",
 		"config file (default: [REPO-ROOT]/.notebook)",
 	)
+
+	viper.SetDefault("theme", "bitsgofer")
+	viper.SetDefault("contentDir", "content")
+	viper.SetDefault("outputDir", "_public_html")
 
 	viper.SetDefault("devServer.dataDir", "_public_html")
 	viper.SetDefault("devServer.addr", "localhost:8080")
