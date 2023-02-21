@@ -1,15 +1,19 @@
 package app
 
+// config keys + default values
 const (
-	cfgConfiFileFormat   = "yaml"
-	cfgDefaultConfigFile = ".notebook"
+	cfgConfiFileFormat = "yaml"
 
-	// config flag/keys
-	cfgKeyConfigFile       = "config"
-	cfgKeyTheme            = "theme"
-	cfgKeyContentDir       = "contentDir"
-	cfgKeyOutputDir        = "outputDir"
-	cfgKeyDevServer        = "devServer"
-	cfgKeyDevServerAddr    = cfgKeyDevServer + ".addr"
-	cfgKeyDevServerDataDir = cfgKeyDevServer + ".dataDir"
+	// root cmd
+	cfgKeyConfigFile     = "config"
+	cfgDefaultConfigFile = ".notebook"
+	// render + develop + publish
+	cfgKeyRender                  = "render"
+	cfgKeyTheme                   = cfgKeyRender + ".theme"
+	cfgKeyContentDir              = cfgKeyRender + ".contentDir"
+	cfgKeyOutputDir               = cfgKeyRender + ".outputDir"
+	cfgKeyDevServer               = "devServer"
+	cfgKeyDevServerAddr           = cfgKeyDevServer + ".addr"
+	cfgKeyDevServerDataDir        = cfgKeyDevServer + ".dir"
+	cfgDefaultOutputAndPublishDir = "_public_html"
 )

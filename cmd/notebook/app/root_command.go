@@ -49,9 +49,9 @@ func setupRootCmdFlags() {
 
 	viper.SetDefault(cfgKeyTheme, "bitsgofer")
 	viper.SetDefault(cfgKeyContentDir, "content")
-	viper.SetDefault(cfgKeyOutputDir, "_public_html")
+	viper.SetDefault(cfgKeyOutputDir, cfgDefaultOutputAndPublishDir)
 
-	viper.SetDefault(cfgKeyDevServerDataDir, "_public_html")
+	viper.SetDefault(cfgKeyDevServerDataDir, cfgDefaultOutputAndPublishDir)
 	viper.SetDefault(cfgKeyDevServerAddr, "localhost:8080")
 
 	// include klog's flags into CLI
