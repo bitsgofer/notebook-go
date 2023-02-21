@@ -10,6 +10,11 @@ import (
 	klog "k8s.io/klog/v2"
 )
 
+func init() {
+	setupSubcommands()
+	setupRootCmdFlags()
+}
+
 var (
 	rootCmd = &cobra.Command{
 		Use:          "notebook",
