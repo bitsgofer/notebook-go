@@ -1,0 +1,16 @@
+#!/bin/sh
+#
+# Run a number of checks before we commit.
+# Checks:
+# - The commit is buildable (make build doesn't break).
+
+echo -n "[POST-COMMIT HOOK]: Check if commit is buildable..."
+MAKE=$(which make)
+if ! (${MAKE} build 1>/dev/null 2>/dev/null)
+then
+	echo " => Cannot build. Run'make build' to see what's wrong".
+	exit 1
+fi
+
+echo " => Build is OK".
+exit 0

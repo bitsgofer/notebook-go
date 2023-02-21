@@ -11,6 +11,13 @@ clean:
 	docker rm -f ${DEVTOOL_CONTAINER} || true
 .PHONY: clean
 
+# == RUN THIS TO SETUP THE REPO AFTER A FRESH CHECKOUT =========================
+setup:
+	git config --local include.path ../.gitconfig
+	git config --file=.gitconfig core.hooksPath .githooks
+.PHONY: setup
+# ==============================================================================
+
 # == dev env docker ============================================================
 DEVTOOL_IMAGE=bitsgofer.com/notebook-go/devenv:latest
 DEVTOOL_CONTAINER=${BIN_NAME}-devenv
@@ -54,6 +61,21 @@ docker-build: ${BUILD_DIR} devenv-docker
 	$(DOCKER) cp ${DEVTOOL_CONTAINER}:${DEVTOOL_PACKAGE_PATH}/${BUILD_DIR} ./
 	$(DOCKER) rm -f ${DEVTOOL_CONTAINER} > /dev/null
 .PHONY: docker-build
+# ==============================================================================
+
+# == ensure good commit history (useful after complex rebase work) =============
+
+# 8446449 is the empty initial commit. We could periodically update this
+# to the latest tagged release so there's less to check.
+TEST_FROM_COMMIT=8446449
+
+verify-commits-can-be-built:
+	git rebase -i --exec "make build" ${TEST_FROM_COMMIT}
+.PHONY: verify-commits-can-be-built
+
+verify-commits-can-be-tested:
+	git rebase -i --exec "make test" ${TEST_FROM_COMMIT}
+.PHONY: verify-commits-can-be-tested
 # ==============================================================================
 
 # == cross-platform releases ===================================================
