@@ -71,7 +71,33 @@ var publishToGithubPagesCmd = &cobra.Command{
 	Use:   "publishToGithubPages",
 	Short: "Publish to Github Pages",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		fmt.Println("Publish to Github Pages")
+		publishDir := viper.GetString(cfgKeyPublishDir)
+
+		// get current working dir, so we can return later
+		currentDir, err := os.Getwd()
+		cobra.CheckErr(err)
+
+		// change to publishDir (and therefore the publishBranch)
+		err = os.Chdir(publishDir)
+		cobra.CheckErr(err)
+
+		output, err := run("git", "status", "--porcelain=v1")
+		klog.V(4).InfoS("git status --porcelain=v1", "output", output, "err", err)
+		cobra.CheckErr(err)
+		if output == "" {
+			fmt.Printf("Rendered content have not changed => Skip publishing")
+			return nil
+		}
+
+		klog.V(2).InfoS("publishDir changed => commit and push")
+		mustRun("git", "add", "--all")
+		mustRun("git", "commit", "--message", "Render and deploy page")
+		mustRun("git", "push")
+
+		// return to original dir
+		err = os.Chdir(currentDir)
+		cobra.CheckErr(err)
+
 		return nil
 	},
 }

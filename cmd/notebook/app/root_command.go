@@ -29,6 +29,7 @@ func setupSubcommands() {
 	rootCmd.AddCommand(developCmd)
 	rootCmd.AddCommand(renderCmd)
 	rootCmd.AddCommand(setupBranchForGithubPages)
+	rootCmd.AddCommand(publishToGithubPagesCmd)
 }
 
 func Execute() {
