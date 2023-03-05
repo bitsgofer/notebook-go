@@ -67,7 +67,7 @@ docker-build: ${BUILD_DIR} devenv-docker
 
 # 8446449 is the empty initial commit. We could periodically update this
 # to the latest tagged release so there's less to check.
-TEST_FROM_COMMIT=8446449
+TEST_FROM_COMMIT=v0.0.1
 
 verify-commits-can-be-built:
 	git rebase -i --exec "make build" ${TEST_FROM_COMMIT}

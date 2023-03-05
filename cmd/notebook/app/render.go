@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/bitsgofer/notebook-go/internal/render"
+	"github.com/bitsgofer/notebook-go/themes/astra"
 	"github.com/bitsgofer/notebook-go/themes/bitsgofer"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -21,6 +22,8 @@ var renderCmd = &cobra.Command{
 		switch themeName {
 		case "bitsgofer":
 			theme = bitsgofer.New()
+		case "astra":
+			theme = astra.New()
 		default:
 			return fmt.Errorf("theme does not exist")
 		}
