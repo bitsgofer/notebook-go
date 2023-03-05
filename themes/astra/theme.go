@@ -44,20 +44,18 @@ func (bth *bitsgoferTheme) CompileAssets(outputDir string) error {
 	jsFiles = append(jsFiles,
 		"assets/prism/prism.js",
 	)
-	// bitsgofer.css
+	// astra.css
 	cssFiles = append(cssFiles,
-		"assets/bitsgofer/blinking-cursor.css",
-		"assets/bitsgofer/resume.css",
 	)
 
 	// minify CSS
-	dstCSS := filepath.Join(outputDir, "css", "bitsgofer.css")
+	dstCSS := filepath.Join(outputDir, "css", "astra.css")
 	if err := render.Minify(dstCSS, themeFS, cssFiles...); err != nil {
 		return fmt.Errorf("cannot minify CSS; err= %w", err)
 	}
 	klog.V(2).InfoS("minified CSS files", "dst", dstCSS)
 	// minify JS
-	dstJS := filepath.Join(outputDir, "js", "bitsgofer.js")
+	dstJS := filepath.Join(outputDir, "js", "astra.js")
 	if err := render.Minify(dstJS, themeFS, jsFiles...); err != nil {
 		return fmt.Errorf("cannot minify JS; err= %w", err)
 	}
