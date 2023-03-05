@@ -1,4 +1,4 @@
-package bitsgofer
+package astra
 
 import (
 	"embed"
@@ -46,6 +46,7 @@ func (bth *bitsgoferTheme) CompileAssets(outputDir string) error {
 	)
 	// astra.css
 	cssFiles = append(cssFiles,
+		"assets/astra/fonts.css",
 	)
 
 	// minify CSS
@@ -62,6 +63,16 @@ func (bth *bitsgoferTheme) CompileAssets(outputDir string) error {
 	klog.V(2).InfoS("minified JS files", "dst", dstJS)
 	// -------------------------------------------------------------------------
 
+	if err := copyFonts(outputDir); err != nil {
+		klog.ErrorS(err, "cannot copy fonts")
+		return fmt.Errorf("cannot copy fonts; err= %w", err)
+	}
+
+	if err := copyImages(outputDir); err != nil {
+		klog.ErrorS(err, "cannot copy logo")
+		return fmt.Errorf("cannot copy logo; err= %w", err)
+	}
+
 	// copy prism.js's languages
 	if err := copyPrismJSLanguages(outputDir); err != nil {
 		return fmt.Errorf("cannot copy prism.js's languages; err= %w", err)
@@ -75,6 +86,56 @@ func (bth *bitsgoferTheme) CompileAssets(outputDir string) error {
 		return fmt.Errorf("cannot copy favicon (src= %s) from theme (dst= %s); err= %w", srcFavicon, dstFavicon, err)
 	}
 	klog.V(2).InfoS("copied favicon", "dst", dstFavicon)
+
+	return nil
+}
+
+// copyFonts copies all the fonts file to a folder in the output directory.
+func copyFonts(outputDir string) error {
+	outputFontsDir := filepath.Join(outputDir, "fonts")
+	if err := fileutil.EnsureDir(outputFontsDir); err != nil {
+		return fmt.Errorf("cannot create fonts dir; err= %w", err)
+	}
+
+	fontFiles := []string{
+		"Handlee-Regular.ttf",
+	}
+
+	for _, font := range fontFiles {
+		srcFont := fmt.Sprintf("assets/fonts/%s", font)
+		dstFont := filepath.Join(outputDir, "fonts", font)
+		if err := fileutil.CopyFromFS(dstFont, themeFS, srcFont); err != nil {
+			klog.ErrorS(err, "cannot copy font", "src", srcFont, "dst", dstFont)
+			return fmt.Errorf("cannot copy font (src= %s) from theme (dst= %s); err= %w", srcFont, dstFont, err)
+		}
+		klog.V(3).InfoS("copied font", "font", font, "dst", dstFont)
+	}
+	klog.V(2).InfoS("copied fonts", "dst", outputFontsDir)
+
+	return nil
+}
+
+// copyImages copies all image files to a folder in the output directory.
+func copyImages(outputDir string) error {
+	outputImgagesDir := filepath.Join(outputDir, "images")
+	if err := fileutil.EnsureDir(outputImgagesDir); err != nil {
+		return fmt.Errorf("cannot create images dir; err= %w", err)
+	}
+
+	imageFiles := []string{
+		"logo.png",
+	}
+
+	for _, img := range imageFiles {
+		srcImg := fmt.Sprintf("assets/images/%s", img)
+		dstImg := filepath.Join(outputDir, "images", img)
+		if err := fileutil.CopyFromFS(dstImg, themeFS, srcImg); err != nil {
+			klog.ErrorS(err, "cannot copy image", "src", srcImg, "dst", dstImg)
+			return fmt.Errorf("cannot copy image (src= %s) from theme (dst= %s); err= %w", srcImg, dstImg, err)
+		}
+		klog.V(3).InfoS("copied image", "image", img, "dst", dstImg)
+	}
+	klog.V(2).InfoS("copied images", "dst", outputImgagesDir)
 
 	return nil
 }
